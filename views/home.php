@@ -558,7 +558,7 @@
                   <div class="container">
             
                     <div class="section-header">
-                      <h2>TICKET</h2>
+                      <h2>Ticket</h2>
                     </div>
             
                     <div class="row">

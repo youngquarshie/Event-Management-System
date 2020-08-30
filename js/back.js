@@ -156,12 +156,15 @@ $(document).ready(function(){
 		  });
 
 		  $('#mytable').DataTable({
-			"paging": true,
-			"lengthChange": false,
-			"searching": true,
-			"ordering": true,
-			"info": true,
-			"autoWidth": false,
+			destroy: true,
+			paging: true,
+			lengthChange: false,
+			searching: true,
+			ordering: true,
+			info: true,
+			stateSave: true,
+			autoWidth: false
+			
 	
 		});
 

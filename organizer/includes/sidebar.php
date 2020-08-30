@@ -14,7 +14,7 @@
         <img src="assets/img/user.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <div class="d-block text-black"><?php echo $_SESSION['name'];?></div>
+          <div class="d-block text-black" style="color:black" ><?php echo $_SESSION['name'];?></div>
         </div>
       </div>
 

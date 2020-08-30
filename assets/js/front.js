@@ -282,17 +282,52 @@ $(document).ready(function(){
 			processData:false,
 			success:function(data)
 			{
-        //alert(data);
+		
+				//alert(data);
         if(data.match('success')){
-          alert("You have successfully registered, Your ticket has been sent to your inbox");
-          location.reload();
+
+			Swal.fire({
+				icon: 'success',
+				title: 'You have successfully registered, Your ticket has been sent to your inbox',
+				showConfirmButton: false,
+				timer: 3000,
+				showClass: {
+					popup: 'animate__animated animate__fadeInDown'
+				  }
+			  });
+
+			  setTimeout(function(){
+				location.reload();
+			  },3000);
+
+         
         }
         else if(data.match('already')){
-          alert("You have already registered for this event");
+
+			Swal.fire({
+				icon: 'error',
+				title: 'You have already registered for this event',
+				showConfirmButton: false,
+				timer: 1500,
+				showClass: {
+					popup: 'animate__animated animate__fadeInDown'
+				  }
+			  });
+
           $("#f_ticket").attr("disabled", false);
         }
         else{
-          alert("There was an error, please try again");
+		  //alert("There was an error, please try again");
+		  Swal.fire({
+			icon: 'success',
+			title: 'There was an error, please try again',
+			showConfirmButton: false,
+			timer: 1500,
+			showClass: {
+				popup: 'animate__animated animate__fadeInDown'
+			  }
+		  });
+
           $("#f_ticket").attr("disabled", false);
         }
 				

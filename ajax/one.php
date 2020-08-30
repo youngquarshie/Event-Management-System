@@ -602,6 +602,9 @@ else
 		$salt_id = Hash::unique();
 		$mobile_no=$_POST['mobile_number'];
 		$event_id=$_POST['event_id'];
+
+		// echo $event_id;
+		// die();
 		
 		$event_name=$_POST['event_name'];
 		
@@ -634,7 +637,6 @@ else
 
 		try
 		{
-
 				$check=mysqli_query($con, "SELECT * FROM attendees WHERE attendee_email='$email' AND event_id='$event_id'");
 				$checkcount=mysqli_num_rows($check);
 				if($checkcount > 0){
@@ -650,7 +652,7 @@ else
 				die(mysqli_error($con));
 
 				$message_content="You have successfully registered to attend"." ". $event_name. ",".
-		"below is your ticket";
+				"below is your ticket"." "." "."Ticket ID:"."$ticket_id";
 		// Create the Transport		
 		$transport = (new Swift_SmtpTransport('mail.adaptivebibo.com', 587))
 		->setUsername('test@adaptivebibo.com')
@@ -831,6 +833,7 @@ else
 
 	else if($text == "ticket_id")
 	{	
+		$hash=hash::unique();
 		$ticket_id = escape($_POST['ticket_id']);
 		$sql=mysqli_query($con,"SELECT * FROM all_events 
 		INNER JOIN event_tickets ON all_events.event_id = event_tickets.event_id 
@@ -845,56 +848,97 @@ else
 		
 		$display ='';
 		$display.= '
-            <div class="modal-header">
-              <h4 class="modal-title">Buy Tickets</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form method="POST" id="register_ticket">
-				<div class="form-group">
-				<label>Event Name</label>
-				<input type="hidden" class="form-control" id="ticket_id" name="ticket_id" value="'.$ticket_id.'" disabled>
-                  <input type="text" class="form-control" name="event_name" value="'.$event_name.'" disabled>
+
+		<div class="modal-header">
+		<img src="https://payments2.ipaygh.com/app/webroot/img/LOGO-MER02820.png" class="mx-auto d-block logo">
+	</div>
+	<form action="https://manage.ipaygh.com/gateway/checkout" id="ipay_checkout" method="post" name="ipay_checkout" target="_blank">
+		<div class="modal-body">
+			<legend class="text-center mt-1">Make Payment</legend>
+			<input name="merchant_key" type="hidden" value="tk_3f984306-488d-11e9-9a0b-f23c9170642f">
+			<input id="merchant_code" type="hidden" value="TST000000002579">
+			<input name="source" type="hidden" value="WIDGET">
+			<input name="success_url" type="hidden" value="http://localhost/eventhub">
+			<input name="cancelled_url" type="hidden" value="http://localhost/eventhub">
+			<input id="invoice_id" name="invoice_id" type="hidden" value="'.$hash.'">
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group">
+						<label class="float-left">Event Name</label>
+						<input type="hidden" class="form-control" id="ticket_id" name="ticket_id" value="'.$ticket_id.'" disabled>
+						<input type="text" class="form-control" name="event_name" value="'.$event_name.'" disabled>
+					</div>
 				</div>
-				<div class="form-group">
-				<label>Ticket Type </label>
-                  <input type="text" class="form-control" name="ticket_name" value="'.$ticket_name.'" disabled>
+			</div>
+
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group input-group">
+						<input type="text" title="Name" name="extra_name" id="name" class="form-control" placeholder="First & Last Name">
+					</div>
 				</div>
-				
-				<div>
-				<label>No of Tickets</label>
-				<select name="ticket_no" id="ticket_no" class="form-control">
-				<option value="1" selected >1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				</select>
+			</div>
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group">
+						<label  class="float-left">No of Tickets</label>
+						<select name="ticket_no" id="ticket_no" class="form-control">
+							<option value="1" selected >1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
 				</div>
-				<br>
-				<div class="form-group">
-				<label>Ticket Price</label>
-                  <input type="text" class="form-control" name="ticket_price" id="ticket_price"  value="'.$ticket_price.'" disabled>
+			</div>
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group input-group">
+						<input type="tel" title="Mobile Number" name="extra_mobile" id="number" class="form-control" maxlength="10" placeholder="Contact Number">
+					</div>
 				</div>
-				<div class="form-group">
-				<label>Full  Name</label>
-                  <input type="text" class="form-control" name="full_name" placeholder="Full Name" required>
-                </div>
-				<div class="form-group">
-				<label>Email</label>
-                  <input type="email" class="form-control" name="user_email" placeholder="Your Email" required>
-                </div>
-				<div class="form-group">
-				<label>Mobile No</label>
-                  <input type="text" class="form-control" name="mobile_number" placeholder="Mobile Number(+233552690110)" required>
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn">Buy</button>
-                </div>
-              </form>
-            </div>
+			</div>
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group input-group">
+						<input type="email" name="email" id="extra_email" class="form-control" placeholder="Email">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group input-group">
+						<input type="text" name="total" class="form-control" id="ticket_price" value="'.$ticket_price.'" placeholder="Amount(GH₵)" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg">
+					<div class="form-group input-group">
+						<input class="form-control" type="text" name="description" id="description" placeholder="Description of Payment">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg">
+					<button type="submit" class="btn btn-primary ipay-btn btn-block" style="padding: 8px 11px;"><strong>Pay</strong></button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg text-center mt-2">
+					<a href="" data-dismiss="modal" id="close">Cancel</a>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer justify-content-center ">
+			<div class="row">
+				<div class="col-lg">
+					<img src="https://payments.ipaygh.com/app/webroot/img/iPay_payments.png" style="width: 100%;" class="img-fluid mr-auto" alt="Powered by iPay">
+				</div>
+			</div>
+		</div>
+	</form>
         
 		';
 
@@ -914,7 +958,6 @@ else
 		$row=mysqli_fetch_assoc($sql);
 		$id=$row['event_id'];
 		$event_name=$row['event_name'];
-		
 		
 		$display ='';
 		$display.= '
@@ -975,7 +1018,6 @@ else
 		$row=mysqli_fetch_assoc($sql);
 		$id=$row['speaker_id'];
 		$speaker_name=$row['full_name'];
-		
 		
 		$display ='';
 		$display.= '

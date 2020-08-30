@@ -183,7 +183,7 @@
 
               <!-- /loading music events for a user -->
               <div class="card-body">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped" id="mytable">
                   <thead>
                   <tr>
                     <th>No</th>
@@ -318,7 +318,7 @@
 
               <!-- /loading music events for a user -->
               <div class="card-body">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped" id="mytable">
                   <thead>
                   <tr>
                     <th>No</th>
@@ -465,7 +465,7 @@
     
                   <!-- /loading music events for a user -->
                   <div class="card-body">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped" id="mytable">
                       <thead>
                       <tr>
                         <th>No</th>
@@ -895,7 +895,7 @@
 
               <!-- /loading music events for a user -->
               <div class="card-body">
-                <table class="table table-bordered table-striped" id="mytable">
+                <table class="table table-bordered table-striped" id="mytable" >
                   <thead>
                   <tr>
                     <th>No</th>
@@ -908,8 +908,7 @@
                   <tbody>
                   ';
                   $event_id=$_GET['event_id'];
-                  $sql=mysqli_query($con, "SELECT * FROM attendees") or die(mysqli_error($con));
-  
+                  $sql=mysqli_query($con, "SELECT * FROM attendees WHERE event_id='$event_id'") or die(mysqli_error($con));
                   $i=1;
                   while($row=mysqli_fetch_assoc($sql)){
                       $hash=Hash::unique();
@@ -1254,7 +1253,7 @@
 
               <!-- /loading music events for a user -->
               <div class="card-body">
-                <table class="table table-bordered table-striped" id="table">
+                <table class="table table-bordered table-striped" id="mytable">
                   <thead>
                   <tr>
                     <th>No</th>
@@ -1784,7 +1783,7 @@
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <table id="example2" class="table table-bordered table-striped">
+                        <table id="example2" class="table table-bordered table-striped" id="mytable">
                           <thead>
                           <tr>
                             <th>id</th>
@@ -2130,7 +2129,7 @@
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <table id="example2" class="table table-bordered table-striped">
+                        <table id="example2" class="table table-bordered table-striped" id="mytable">
                           <thead>
                           <tr>
                             <th>ID</th>
@@ -2225,7 +2224,7 @@
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body">
-                        <table id="example2" class="table table-bordered table-striped">
+                        <table id="example2" class="table table-bordered table-striped" id="mytable">
                           <thead>
                           <tr>
                             <th>ID</th>
